@@ -26,7 +26,7 @@ def inicio():
 def perfil(id):
     if 'conectado' in session:
         
-        return render_template(f'public/perfil/perfil.html', info_perfil_session=info_perfil_session(id), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles=lista_rolesBD())
+        return render_template(f'public/perfil/perfil.html', info_perfil_session=info_perfil_session(id), dataLogin=dataLoginSesion(), generos=lista_generoBD(), estado_civil=lista_Estado_CivilBD(), areas=lista_areasBD(), roles=lista_rolesBD())
     else:
         return redirect(url_for('inicio'))
 
@@ -34,7 +34,7 @@ def perfil(id):
 # Crear cuenta de usuario
 @app.route('/register-user', methods=['GET'])
 def cpanelRegisterUser():
-        return render_template(f'{PATH_URL_LOGIN}/auth_register.html',dataLogin = dataLoginSesion(),areas=lista_areasBD(), roles=lista_rolesBD())
+        return render_template(f'{PATH_URL_LOGIN}/auth_register.html',dataLogin = dataLoginSesion(), generos=lista_generoBD(), estado_civil=lista_Estado_CivilBD(), areas=lista_areasBD(), roles=lista_rolesBD())
 
 
 # Recuperar cuenta de usuario
@@ -53,19 +53,20 @@ def cpanelRegisterUserBD():
         cedula = request.form['cedula']
         name = request.form['name']
         surname = request.form['surname']
+        id_genero = request.form['selectGenero']
+        id_estado_civil = request.form['selectEstadoCivil']
         id_area = request.form['selectArea']
         id_rol = request.form['selectRol']
         pass_user = request.form['pass_user']
-        genero = request.form['genero']
-        estado = request.form['estado']
+
 
         resultData = recibeInsertRegisterUser(
-            cedula, name, surname, id_area,id_rol,pass_user, genero , estado)
+            cedula, name, surname, id_genero, id_estado_civil, id_area,id_rol,pass_user)
         if (resultData != 0):
             flash('la cuenta fue creada correctamente.', 'success')
-            return redirect(url_for('inicio'))
+            return redirect(url_for('usuarios'))
         else:
-            return redirect(url_for('inicio'))
+            return redirect(url_for('usuarios'))
     else:
         flash('el método HTTP es incorrecto', 'error')
         return redirect(url_for('inicio'))
@@ -79,7 +80,7 @@ def actualizarPerfil(id):
             respuesta = procesar_update_perfil(request.form,id)
             if respuesta == 1:
                 flash('Los datos fuerón actualizados correctamente.', 'success')
-                return redirect(url_for('inicio'))
+                return redirect(url_for('usuarios'))
             elif respuesta == 0:
                 flash(
                     'La contraseña actual esta incorrecta, por favor verifique.', 'error')

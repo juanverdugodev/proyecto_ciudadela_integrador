@@ -1,6 +1,6 @@
 {% extends 'public/base_cpanel.html' %}
 <!---->
-{% block title %}Crud con Python 🐍 | crear cuenta{% endblock %}
+{% block title %}Reverie Control Panel 🖥️| crear cuenta{% endblock %}
 <!---->
 {% block body %}
 
@@ -11,7 +11,7 @@
         <div class="card-body">
           <div class="app-brand justify-content-center">
             <div class="col-md-12">
-              <h3 class="text-center mt-5 mb-3">REGISTRAR USUARIO</h3>
+              <h3 class="text-center mt-5 mb-3">REGISTRAR USUARIO - EMPLEADO</h3>
               <hr />
             </div>
           </div>
@@ -28,9 +28,13 @@
                 type="text"
                 class="form-control"
                 name="cedula"
+                placeholder="Ingrese su cédula"
+                pattern="\d{10}"
+                title="La cédula debe contener exactamente 10 dígitos"
                 required
                 autofocus />
             </div>
+            
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="name_surname" class="form-label">
@@ -54,31 +58,35 @@
                   required
                   autofocus />
               </div>
-              <div class="mb-3 col-md-6">
-                <label for="estado" class="form-label">
-                  GENERO
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="genero"
-                  required
-                  autofocus />
-              </div>
-              <div class="mb-3 col-md-6">
-                <label for="estado" class="form-label">
-                  ESTADO
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="estado"
-                  required
-                  autofocus />
-              </div>
 
             </div>
-            
+
+            <div class="row">
+              <div class="mb-3 col-md-6">
+                <label for="genero" class="form-label">
+                  Género
+                </label>
+                <select class="form-select" name="selectGenero">
+                  <option value="" disabled selected hidden>-- Seleccionar --</option>
+                  {% for genero in generos%}
+                  <option value="{{genero.id_genero}}">{{genero.tipo_genero}}</option>
+                  {%endfor%}
+                </select>
+              </div>
+
+              <div class="mb-3 col-md-6">
+                <label for="estado_civil" class="form-label">
+                  Estado civil
+                </label>
+                <select class="form-select" name="selectEstadoCivil" required >
+                  <option value="" disabled selected hidden>-- Seleccionar --</option>
+                  {% for estado in estado_civil%}
+                  <option value="{{estado.id_estado_civil}}">{{estado.registro_civil}}</option>
+                  {%endfor%}
+                </select>
+              </div>
+            </div>
+
             <div class="row">
               <div class="mt-3 col-md-6">
                 <label for="area" class="form-label">Area</label>
@@ -87,6 +95,7 @@
                   <option value="{{area.id_area}}">{{area.nombre_area}}</option>
                   {%endfor%}
                 </select>
+                
               </div>
               <div class="mt-3 col-md-6" >
                 <label for="rol" class="form-label">Rol</label>

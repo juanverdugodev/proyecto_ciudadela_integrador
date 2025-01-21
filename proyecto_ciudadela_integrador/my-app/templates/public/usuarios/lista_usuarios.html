@@ -1,13 +1,13 @@
 {% extends 'public/base_cpanel.html' %}
 <!--Cambiando el title-->
-{% block title %}Crud - Python 🐍 | Lista de Usuarios{% endblock %}
+{% block title %}Reverie Control Panel 🖥️| Lista de Usuarios{% endblock %}
 <!---->
 {% block body %} {% if (resp_usuariosBD) %}
 
 <div class="card content_consignaciones" style="border-radius: 0px !important">
   <section id="respuestaFiltroMes">
     <h2 class="text-center mt-5 mb-5">
-      LISTA DE USUARIOS
+      Lista de Usuarios
       <hr />
     </h2>
 
@@ -25,8 +25,7 @@
             <th>Nombre</th>
             <th>Área</th>
             <th>Rol</th>
-            <th>genero</th>
-            <th>estado</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -49,8 +48,13 @@
               {%endif%}
               {%endfor%}
             </td>
-            <td>{{ usuario.estado}} </td> 
-            <td>{{ usuario.genero}} </td> 
+            <td>
+              {% for estado in estados_civiles %}
+              {% if estado.id_estado_civil == usuario.id_estado_civil %}
+              {{ estado.registro_civil }}
+              {% endif %}
+              {% endfor %}
+            </td>
             <td>
               <a
                   href="/mi-perfil/{{usuario.id_usuario}}"

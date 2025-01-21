@@ -128,14 +128,27 @@ def lista_usuariosBD():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT id_usuario, cedula, nombre_usuario, apellido_usuario, id_area, id_rol , genero, estado FROM usuarios"
+                querySQL = "SELECT id_usuario, cedula, nombre_usuario, apellido_usuario, id_area, id_rol, id_estado_civil FROM usuarios"
                 cursor.execute(querySQL,)
                 usuariosBD = cursor.fetchall()
         return usuariosBD
     except Exception as e:
         print(f"Error en lista_usuariosBD : {e}")
         return []
-
+    
+def lista_estados_civilesBD():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT id_estado_civil, registro_civil FROM estado_civil"
+                cursor.execute(querySQL)
+                estados_civiles = cursor.fetchall()
+                print("Estados Civiles:", estados_civiles)  # Para verificar
+        return estados_civiles
+    except Exception as e:
+        print(f"Error en lista_estados_civiles: {e}")
+        return []
+    
 def lista_areasBD():
     try:
         with connectionBD() as conexion_MySQLdb:
@@ -229,7 +242,45 @@ def guardarClaveAuditoria(clave_audi,id):
         
     except Exception as e:
         return f'Se produjo un error en crear Clave: {str(e)}'
-    
+
+# BUSCAR GENERO
+def lista_generoBD():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT * FROM genero"
+                cursor.execute(querySQL)
+                generos = cursor.fetchall()
+
+            # Añadir los emojis al tipo_genero
+                for genero in generos:
+                    if genero['tipo_genero'].lower() == 'masculino':
+                        genero['tipo_genero'] += ' ♂️'
+                    elif genero['tipo_genero'].lower() == 'femenino':
+                        genero['tipo_genero'] += ' ♀️'
+            return generos
+        
+    except Exception as e:
+        print(f"Error en select genero : {e}")
+        return []
+#---------------------------------------------------
+
+# BUSCAR ESTADO
+def lista_Estado_CivilBD():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT * FROM estado_civil"
+                cursor.execute(querySQL)
+                estado_civil = cursor.fetchall()
+                
+                return estado_civil
+    except Exception as e:
+        print(f"Error en select estado_civil : {e}")
+        return []
+#---------------------------------------------------
+
+# BUSCAR ROLES
 def lista_rolesBD():
     try:
         with connectionBD() as conexion_MYSQLdb:
