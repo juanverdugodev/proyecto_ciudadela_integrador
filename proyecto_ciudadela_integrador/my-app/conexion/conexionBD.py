@@ -18,4 +18,4 @@ def connectionBD():
             return connection
 
     except mysql.connector.Error as error:
-        print(f"No se pudo conectar a la base de datos.\nError encontrado: {error}\n")
+        print(f"No se pudo conectar a la base de datos.\nError encontrado: {error}\n")

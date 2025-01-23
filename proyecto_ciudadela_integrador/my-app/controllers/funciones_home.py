@@ -123,7 +123,7 @@ def buscarAreaBD(search):
         return []
 
 
-# Lista de Usuarios creados
+# Lista de Usuarios creadosd
 def lista_usuariosBD():
     try:
         with connectionBD() as conexion_MySQLdb:
