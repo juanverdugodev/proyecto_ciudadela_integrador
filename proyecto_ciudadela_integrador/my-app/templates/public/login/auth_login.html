@@ -40,22 +40,72 @@
         }
 
         .card {
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--white);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 1rem;
             opacity: 0;
             transform: translateY(50px);
             animation: fadeIn 0.5s ease-in-out forwards;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.5), rgba(255, 255, 255, 0.2));
+            z-index: 1;
+            opacity: 0.8;
+            animation: moveBorder 3s linear infinite;
+        }
+
+        .card-body {
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: 1px solid var(--white);
+            transition: background-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            outline: none;
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-control[name="cedula"] {
+            color: var(--white);
+        }
+
+        input:-webkit-autofill {
+            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.2) inset !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
+            background-color: var(--white);
+            color: var(--text-dark);
             border: none;
             transition: all 0.3s ease-in-out;
         }
 
         .btn-primary:hover {
-            background-color: var(--text-light);
+            background-color: rgba(255, 255, 255, 0.8);
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
         }
@@ -66,9 +116,38 @@
                 transform: translateY(0);
             }
         }
+
+        @keyframes moveBorder {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 200% 200%;
+            }
+        }
+
+        .alert {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            z-index: 1000;
+        }
+
+        .label-cedula,
+        .label-clave {
+            color: var(--white);
+        }
     </style>
 </head>
 <body>
+    {% if message %}
+    <div class="alert alert-danger text-center" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
@@ -90,18 +169,18 @@
                             action="{{ url_for('loginCliente') }}"
                             method="POST">
                             <div class="mb-3">
-                                <label for="cedula" class="form-label">Cédula</label>
+                                <label for="cedula" class="form-label label-cedula">Cédula</label>
                                 <input
                                     type="text"
                                     class="form-control"
                                     name="cedula"
-                                    placeholder="Escribe tu cédula"
+                                    placeholder="Ingresa tu cédula"
                                     autofocus
                                     required />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Clave</label>
+                                    <label class="form-label label-clave" for="password">Clave</label>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input
@@ -109,17 +188,17 @@
                                         class="form-control"
                                         name="pass_user"
                                         id="pass_user"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        placeholder="Ingresa clave"
                                         aria-describedby="password"
                                         required />
-                                    <span class="input-group-text cursor-pointer">
-                                        <i class="bx bx-hide"></i>
+                                    <span class="input-group-text cursor-pointer" id="togglePassword">
+                                        <i class="bx bx-hide" id="passwordIcon"></i>
                                     </span>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary w-100" type="submit">
-                                    Entrar ahora
+                                    Iniciar Sesión
                                     <i class="bi bi-arrow-right-circle"></i>
                                 </button>
                             </div>
@@ -129,5 +208,17 @@
             </div>
         </div>
     </div>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('pass_user');
+        const passwordIcon = document.getElementById('passwordIcon');
+
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            passwordIcon.classList.toggle('bx-hide', !isPassword);
+            passwordIcon.classList.toggle('bx-show', isPassword);
+        });
+    </script>
 </body>
 </html>
