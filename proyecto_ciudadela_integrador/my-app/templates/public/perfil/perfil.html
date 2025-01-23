@@ -135,7 +135,7 @@
                     aria-describedby="password"
                     required
                     minlength="8"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_- ])[A-Za-z\d@$!%*?&_-]{8,}"
                     title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." />
                 <span class="input-group-text cursor-pointer">
                     <i class="bx bx-hide"></i>
@@ -155,7 +155,7 @@
                     aria-describedby="password"
                     required
                     minlength="8"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}"
                     title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
                     oninput="this.setCustomValidity(this.value !== document.getElementById('new_pass_user').value ? 'Las contraseñas no coinciden.' : '');" />
                 <span class="input-group-text cursor-pointer">
