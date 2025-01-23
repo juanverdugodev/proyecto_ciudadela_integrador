@@ -21,6 +21,22 @@ def usuarios():
         return render_template('public/usuarios/lista_usuarios.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
     else:
         return redirect(url_for('inicioCpanel'))
+@app.route("/Avisos-de-incendios", methods=['GET'])
+
+@app.route("/RFID", methods=['GET'])
+def RFID():
+    if 'conectado' in session:
+        return render_template('public/usuarios/RFID.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+    else:
+        return redirect(url_for('inicioCpanel'))
+@app.route("/Avisos-de-incendios", methods=['GET'])
+
+def Humo():
+    if 'conectado' in session:
+        return render_template('public/usuarios/Avisos_de_incendio.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+    else:
+        return redirect(url_for('inicioCpanel'))
+
 
 #Ruta especificada para eliminar un usuario
 @app.route('/borrar-usuario/<string:id>', methods=['GET'])

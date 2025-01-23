@@ -5,10 +5,10 @@ def connectionBD():
     print("Conectando a la base de datos...")
     try:
         connection = mysql.connector.connect(
-            host="34.68.99.255",
+            host="127.0.0.1",
             port=3306,
-            user="Administrador",
-            passwd="PI_ciudadela",
+            user="root",
+            passwd="1234",
             database="ciudadela",
             raise_on_warnings=True
         )

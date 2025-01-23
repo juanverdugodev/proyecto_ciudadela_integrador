@@ -53,6 +53,25 @@
         <div data-i18n="Tables">Lista de Usuarios</div>
       </a>
     </li>
+    <li
+    class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
+  >
+  <li
+  class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
+>
+  <a href="/RFID" class="menu-link">
+    <i class="menu-icon bi bi-person-lines-fill"></i>
+    <div data-i18n="Tables">RFID</div>
+  </a>
+</li>
+<li
+class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
+>
+    <a href="/Avisos-de-incendios" class="menu-link">
+      <i class="menu-icon bi bi-fire"></i>
+      <div data-i18n="Tables">Control de humo</div>
+    </a>
+  </li>
     {%endif%}
     <li
       class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}"
