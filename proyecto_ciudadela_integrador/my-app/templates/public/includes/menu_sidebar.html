@@ -20,13 +20,56 @@
   <div class="menu-inner-shadow"></div>
   <ul class="menu-inner py-5">
     <li
-      class="menu-item {% if request.path == '/interfaz-clave' %} active {% endif %}"
+    class="menu-item {% if request.path == '/RFID' %} active {% endif %}"
     >
-      <a href="/interfaz-clave" class="menu-link">
-        <i class="menu-icon bi bi-person-fill-lock"></i>
-        <div data-i18n="Tables">Generar Clave</div>
+      <a href="/RFID" class="menu-link">
+        <i class="menu-icon bi-credit-card-2-back"></i>
+        <div data-i18n="Tables">RFID</div>
       </a>
     </li>
+
+
+    <li
+      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
+    >
+      <a href="/lista-de-usuarios" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Tables">Lista de Usuarios</div>
+      </a>
+    </li>
+  </li>
+  <li
+  class="menu-item {% if request.path == '/Control-casa' %} active {% endif %}"
+>
+  <a href="/Control-casa" class="menu-link">
+    <i class="menu-icon bi-snow2"></i>
+    <div data-i18n="Tables">Pezonalizar casa</div>
+  </a>
+</li>
+      <li
+      class="menu-item {% if request.path == '/Consumo-energetico' %} active {% endif %}"
+    >
+      <a href="/Consumo-energetico" class="menu-link">
+        <i class="menu-icon bi-lightning-charge"></i>
+        <div data-i18n="Tables">Consumo-energetico</div>
+      </a>
+    </li>
+    <li
+    class="menu-item {% if request.path == '/Control-temperatura' %} active {% endif %}"
+  >
+    <a href="/Control-temperatura" class="menu-link">
+      <i class="menu-icon bi-snow2"></i>
+      <div data-i18n="Tables">Control temperatura</div>
+    </a>
+  </li>
+  <li
+  class="menu-item {% if request.path == '/A' %} active {% endif %}"
+  >
+    <a href="/Avisos-de-incendios" class="menu-link">
+      <i class="menu-icon bi bi-fire"></i>
+      <div data-i18n="Tables">Control de humo</div>
+    </a>
+  </li>
     <li
       class="menu-item {% if request.path == '/reporte-accesos' %} active{%endif%}"
     >
@@ -45,33 +88,14 @@
       </a>
     </li>
     {%endif%} {% if dataLogin.rol == 1 %}
-    <li
-      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
-    >
-      <a href="/lista-de-usuarios" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Tables">Lista de Usuarios</div>
-      </a>
-    </li>
+
+
+
     <li
     class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
   >
-  <li
-  class="menu-item {% if request.path == '/RFID' %} active {% endif %}"
-  >
-    <a href="/RFID" class="menu-link">
-      <i class="menu-icon bi-credit-card-2-back"></i>
-      <div data-i18n="Tables">RFID</div>
-    </a>
-  </li>
-  <li
-  class="menu-item {% if request.path == '/A' %} active {% endif %}"
-  >
-    <a href="/Avisos-de-incendios" class="menu-link">
-      <i class="menu-icon bi bi-fire"></i>
-      <div data-i18n="Tables">Control de humo</div>
-    </a>
-  </li>
+
+
     {%endif%}
     <li
       class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}"

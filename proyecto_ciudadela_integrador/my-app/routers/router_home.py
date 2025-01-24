@@ -21,7 +21,29 @@ def usuarios():
         return render_template('public/usuarios/lista_usuarios.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
     else:
         return redirect(url_for('inicioCpanel'))
-@app.route("/Avisos-de-incendios", methods=['GET'])
+
+@app.route("/Consumo-energetico", methods=['GET'])
+def consumon_energetico():
+    if 'conectado' in session:
+        return render_template('public/usuarios/Consumo_Energetico.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+    else:
+        return redirect(url_for('inicioCpanel'))
+
+@app.route("/Control-temperatura", methods=['GET'])
+def Control_temperatura():
+    if 'conectado' in session:
+        return render_template('public/usuarios/Control_temperatura.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+    else:
+        return redirect(url_for('inicioCpanel'))
+    
+
+@app.route("/Control-casa", methods=['GET'])
+def Control_casa():
+    if 'conectado' in session:
+        return render_template('public/usuarios/Iluminacion.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+    else:
+        return redirect(url_for('inicioCpanel'))
+
 
 @app.route("/RFID", methods=['GET'])
 def RFID():
