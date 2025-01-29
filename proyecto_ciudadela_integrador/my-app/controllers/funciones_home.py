@@ -365,3 +365,26 @@ def eliminarHumo(id):
         print(f"Error en eliminarHumo : {e}")
         # En caso de error, se retorna un valor vacío o None para indicar el fallo
         return []
+# Lista de registros de temperatura
+def lista_temperaturaBD():
+    try:
+        # Establecer la conexión con la base de datos
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Consultar todos los registros de la tabla 'temperatura'
+                querySQL = "SELECT id_temperatura, fecha_hora, temperatura FROM temperatura"
+                cursor.execute(querySQL)
+                
+                # Obtener los resultados y devolverlos
+                temperaturaBD = cursor.fetchall()
+                
+                # Verificar si no hay registros
+                if not temperaturaBD:
+                    print("No se encontraron registros de temperatura.")
+                
+                return temperaturaBD
+    except Exception as e:
+        print(f"Error en lista_temperaturaBD : {e}")
+        # Puedes retornar un valor vacío o None para indicar que hubo un error
+        return []
+

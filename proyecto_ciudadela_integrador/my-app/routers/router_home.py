@@ -14,6 +14,16 @@ def lista_areas():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+    
+@app.route("/Control-temperatura", methods=['GET'])
+def lista_temperaturas():
+    if 'conectado' in session:
+        # Obtén los datos de temperatura y la información de la sesión del usuario
+        return render_template('public/usuarios/Control_temperatura.html', resp_temperaturasBD=lista_temperaturaBD(), dataLogin=dataLoginSesion())
+    else:
+        # Si no está conectado, redirige al inicio del panel de control
+        return redirect(url_for('inicioCpanel'))
+
 
 @app.route("/lista-de-usuarios", methods=['GET'])
 def usuarios():
@@ -37,14 +47,7 @@ def consumon_energetico():
     else:
         return redirect(url_for('inicioCpanel'))
 
-@app.route("/Control-temperatura", methods=['GET'])
-def Control_temperatura():
-    if 'conectado' in session:
-        return render_template('public/usuarios/Control_temperatura.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
-    else:
-        return redirect(url_for('inicioCpanel'))
     
-
 @app.route("/Control-casa", methods=['GET'])
 def Control_casa():
     if 'conectado' in session:
