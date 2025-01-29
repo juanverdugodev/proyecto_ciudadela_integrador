@@ -1,0 +1,73 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block title %}Reverie Control Panel 🖥️| Lista de Humo{% endblock %}
+
+{% block body %}
+{% if resp_humoBD %}
+  <div class="card content_consignaciones" style="border-radius: 0px !important">
+    <section id="respuestaFiltroMes">
+      <h2 class="text-center mt-5 mb-5">
+        Lista de Registros de Humo
+        <hr />
+      </h2>
+
+      <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+          <thead>
+            <tr style="background-color: #ddd">
+              <th>ID</th>
+              <th>Fecha </th>
+              <th>Nivel Humo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for humo in resp_humoBD %}
+              <tr>
+                <td>{{ humo.id_registro }}</td>
+                <td>{{ humo.fechas_registro }}</td>
+                <td>{{ humo.nivel_humo }}</td>
+                <td>
+                  <a
+                    style="color: white;"
+                    onclick="eliminarregistro('{{ humo.id_registro }}');"
+                    class="btn btn-danger btn-sm"
+                    data-bs-toggle="tooltip"
+                    data-bs-offset="0,4"
+                    data-bs-placement="top"
+                    data-bs-html="true"
+                    title="<span>Eliminar registro de humo</span>">
+                    <i class="bi bi-trash3"></i>
+                    Eliminar
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+{% else %}
+  <div class="container mt-3 mb-3" style="width: 100% !important">
+    <div class="row justify-content-md-center mb-2">
+      <div class="col-12">
+        <h2 class="text-center">No hay registros de humo 😭</h2>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block customJS %}
+<script>
+  function eliminarregistro(id) {
+    if (confirm("¿Estas seguro que deseas eliminar este registro de humo?")) {
+      let url = `/borrar-registro-humo/${id}`;
+      if (url) {
+        window.location.href = url;
+      }
+    }
+  }
+</script>
+{% endblock %}

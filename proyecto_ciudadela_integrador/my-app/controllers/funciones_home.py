@@ -135,7 +135,30 @@ def lista_usuariosBD():
     except Exception as e:
         print(f"Error en lista_usuariosBD : {e}")
         return []
-    
+# Lista de tr creadosd
+# Lista de registros de humo
+def lista_humoBD():
+    try:
+        # Establecer la conexión con la base de datos
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Consultar todos los registros de la tabla 'humo'
+                querySQL = "SELECT id_registro, fechas_registro, nivel_humo FROM humo"
+                cursor.execute(querySQL)
+                
+                # Obtener los resultados y devolverlos
+                humoBD = cursor.fetchall()
+                
+                # Verificar si no hay registros
+                if not humoBD:
+                    print("No se encontraron registros de humo.")
+                
+                return humoBD
+    except Exception as e:
+        print(f"Error en lista_humoBD : {e}")
+        # Puedes retornar un valor vacío o None para indicar que hubo un error
+        return []
+
 def lista_estados_civilesBD():
     try:
         with connectionBD() as conexion_MySQLdb:
@@ -321,4 +344,24 @@ def actualizarArea(area_id, area_name):
         
     except Exception as e:
         return f'Se produjo un error al actualizar el área: {str(e)}'
-    
+    # Eliminar registro de humo
+def eliminarHumo(id):
+    try:
+        # Establecer la conexión con la base de datos
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Ejecutar la consulta para eliminar el registro de la tabla 'humo'
+                querySQL = "DELETE FROM humo WHERE id_registro=%s"
+                cursor.execute(querySQL, (id,))
+                
+                # Confirmar la eliminación en la base de datos
+                conexion_MySQLdb.commit()
+                
+                # Obtener el número de registros eliminados
+                resultado_eliminar = cursor.rowcount
+                
+        return resultado_eliminar
+    except Exception as e:
+        print(f"Error en eliminarHumo : {e}")
+        # En caso de error, se retorna un valor vacío o None para indicar el fallo
+        return []
