@@ -388,3 +388,31 @@ def lista_temperaturaBD():
         # Puedes retornar un valor vacío o None para indicar que hubo un error
         return []
 
+def lista_rfidBD():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Se une la tabla acceso_rfid con la tabla usuario para obtener el nombre y apellido
+                querySQL = """
+                SELECT 
+                    id_registro, 
+                    id_usuario, 
+                    fecha_registro, 
+                    codigo_rfid, 
+                    id_area, 
+                    usuario, 
+                    estado
+                FROM acceso_rfid
+                """
+                cursor.execute(querySQL)
+                rfidBD = cursor.fetchall()
+
+                if not rfidBD:
+                    print("No se encontraron registros en la tabla acceso_rfid.")
+
+                return rfidBD
+    except Exception as e:
+        print(f"Error en lista_rfidBD : {e}")
+        return []
+
+

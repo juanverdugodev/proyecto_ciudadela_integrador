@@ -56,13 +56,20 @@ def Control_casa():
         return redirect(url_for('inicioCpanel'))
 
 
+
 @app.route("/RFID", methods=['GET'])
-def RFID():
+def lista_acceso_rfid():
     if 'conectado' in session:
-        return render_template('public/usuarios/RFID.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+        print(lista_rfidBD())  # Verifica la salida
+        print(dataLoginSesion())  # Verifica la sesión del usuario
+        return render_template(
+            'public/usuarios/RFID.html', 
+            resp_rfidBD=lista_rfidBD(),  # Cambio de función
+            dataLogin=dataLoginSesion()
+        )
     else:
         return redirect(url_for('inicioCpanel'))
-    
+
 
 #Ruta especificada para eliminar un usuario
 @app.route('/borrar-usuario/<string:id>', methods=['GET'])

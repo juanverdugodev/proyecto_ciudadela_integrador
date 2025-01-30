@@ -1,21 +1,19 @@
 {% extends 'public/base_cpanel.html' %}
-<!-- Cambiando el title -->
+
 {% block title %}Reverie Control Panel 🖥️ | Lista de Usuarios{% endblock %}
-<!---->
+
 {% block body %}
-{% if resp_usuariosBD %}
+{% if resp_rfidBD %}
 <div class="card content_consignaciones" style="border-radius: 0px !important">
   <section id="respuestaFiltroMes">
     <h2 class="text-center mt-5 mb-5">
-      Lista de RFID
+      Lista de Accesos RFID
       <hr />
     </h2>
 
-    <p class="btn btn-success" style="margin-left: 10px;">
-      <a href="./register-user">
-        <span style="color: white;">Nueva Tarjeta</span>
-      </a>
-    </p>
+    <a href="./register-user" class="btn btn-success" style="margin-left: 10px; color: white;">
+      Nueva Tarjeta
+    </a>
 
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
@@ -24,28 +22,22 @@
             <th>ID Registro</th>
             <th>ID Usuario</th>
             <th>Fecha Hora Ingreso</th>
-            <th>Estado</th>
             <th>Código RFID</th>
             <th>ID Área</th>
-            <th>Nombre Usuario</th>
+            <th>Usuario</th>
+            <th>Estado</th>
           </tr>
         </thead>
         <tbody>
-          {% for usuario in resp_usuariosBD %}
+          {% for acceso_rfid in resp_rfidBD %}
           <tr>
-            <td>{{ usuario.id_registro }}</td>
-            <td>{{ usuario.id_usuario }}</td>
-            <td>{{ usuario.fecha_registro }}</td>
-            <td>{{ usuario.estado }}</td>
-            <td>{{ usuario.codigo_rfid }}</td>
-            <td>{{ usuario.id_area }}</td>
-            <td>{{ usuario.nombre_usuario }} {{ usuario.apellido_usuario }}</td>
-            <td>
-              {% if usuario.id_area == 4 %}
-                {{ usuario.id_area }}
-              {% endif %}
-            </td>
-            
+            <td>{{ acceso_rfid.id_rfid }}</td>
+            <td>{{ acceso_rfid.id_usuario }}</td>
+            <td>{{ acceso_rfid.fecha_registro }}</td>
+            <td>{{ acceso_rfid.codigo_rfid }}</td>
+            <td>{{ acceso_rfid.id_area or 'No Especificado' }}</td>
+            <td>{{ acceso_rfid.usuario or 'Desconocido' }}</td>
+            <td>{{ acceso_rfid.estado or 'No Especificado' }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -61,11 +53,12 @@
     </div>
   </div>
 </div>
+
 {% endif %}
-<!-- Fin del Block -->
+
 {% endblock %}
 
-<!-- Script Custom -->
 {% block scripts %}
 <!-- Aquí puedes agregar scripts personalizados si es necesario -->
 {% endblock %}
+                                                           
