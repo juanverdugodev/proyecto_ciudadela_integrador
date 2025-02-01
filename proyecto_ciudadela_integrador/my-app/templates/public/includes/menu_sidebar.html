@@ -1,115 +1,178 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-  <div class="app-brand demo">
-    <a href="{{ url_for('inicio') }}" class="app-brand-link">
-      <span class="app-brand-logo demo">
-        <img
-          src="{{ url_for('static', filename ='assets/img/logo.png') }}"
-          alt="Logo"
-        />
-      </span>
-    </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Estilos para el video de fondo */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
 
-    <a
-      href="javascript:void(0);"
-      class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none"
-    >
-      <i class="bx bx-chevron-left bx-sm align-middle"></i>
-    </a>
-  </div>
+        /* Estilos generales para el texto y fondos */
+        body {
+            color: #c0c0c0; /* Color gris claro para el texto */
+            background-color: #2d2d2d; /* Fondo oscuro para contraste */
+        }
 
-  <div class="menu-inner-shadow"></div>
-  <ul class="menu-inner py-5">
-    <li
-    class="menu-item {% if request.path == '/RFID' %} active {% endif %}"
-    >
-      <a href="/RFID" class="menu-link">
-        <i class="menu-icon bi-credit-card-2-back"></i>
-        <div data-i18n="Tables">RFID</div>
-      </a>
-    </li>
+        /* Efectos para los botones */
+        .menu-item.active .menu-link {
+            background-color: #28a745; /* Verde */
+            color: #ffffff; /* Blanco */
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
+        .menu-item .menu-link {
+            color: #c0c0c0; /* Color gris claro para el texto de los botones */
+        }
 
-    <li
-      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
-    >
-      <a href="/lista-de-usuarios" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Tables">Lista de Usuarios</div>
-      </a>
-    </li>
-  </li>
-  <li
-  class="menu-item {% if request.path == '/Control-casa' %} active {% endif %}"
->
-  <a href="/Control-casa" class="menu-link">
-    <i class="menu-icon bi-snow2"></i>
-    <div data-i18n="Tables">Pezonalizar casa</div>
-  </a>
-</li>
-      <li
-      class="menu-item {% if request.path == '/Consumo-energetico' %} active {% endif %}"
-    >
-      <a href="/Consumo-energetico" class="menu-link">
-        <i class="menu-icon bi-lightning-charge"></i>
-        <div data-i18n="Tables">Consumo-energetico</div>
-      </a>
-    </li>
-    <li
-    class="menu-item {% if request.path == '/Control-temperatura' %} active {% endif %}"
-  >
-    <a href="/Control-temperatura" class="menu-link">
-      <i class="menu-icon bi-snow2"></i>
-      <div data-i18n="Tables">Control temperatura</div>
-    </a>
-  </li>
-  <li
-  class="menu-item {% if request.path == '/A' %} active {% endif %}"
-  >
-    <a href="/lista-humo" class="menu-link">
-      <i class="menu-icon bi bi-fire"></i>
-      <div data-i18n="Tables">Control de humo</div>
-    </a>
-  </li>
-    <li
-      class="menu-item {% if request.path == '/reporte-accesos' %} active{%endif%}"
-    >
-      <a href="/reporte-accesos" class="menu-link">
-        <i class="menu-icon bi bi-file-lock-fill"></i>
-        <div data-i18n="Tables">Reporte Accesos</div>
-      </a>
-    </li>
-    {% if dataLogin.rol == 1 %}
-    <li
-      class="menu-item {% if request.path == '/lista-de-areas' %} active{% endif %}"
-    >
-      <a href="/lista-de-areas" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Boxicons">Lista de Áreas</div>
-      </a>
-    </li>
-    {%endif%} {% if dataLogin.rol == 1 %}
+        .menu-item .menu-link:hover {
+            background-color: #333333; /* Gris oscuro para hover */
+            color: #ffffff; /* Blanco */
+        }
 
+        .menu-item.active .menu-link {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
 
+        .menu-item.active .menu-icon {
+            transform: rotate(360deg);
+            transition: transform 0.5s ease;
+        }
 
-    <li
-    class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
-  >
+        /* Estilos para el menú lateral */
+        .layout-menu {
+            background-color: #000000; /* Fondo negro para todo el menú lateral */
+        }
 
+        .menu-inner {
+            background-color: #000000; /* Fondo negro para el menú interno */
+        }
 
-    {%endif%}
-    <li
-      class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}"
-    >
-      <a href="/mi-perfil/{{dataLogin.id}}" class="menu-link">
-        <i class="menu-icon bi bi-person-fill-gear"></i>
-        <div data-i18n="Tables">Mi Perfil</div>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a href="{{ url_for('cerraSesion') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bi-box-arrow-right"></i>
-        <div data-i18n="Tables">Salir</div>
-      </a>
-    </li>
-  </ul>
-</aside>
+        /* Estilos para el logo */
+        .app-brand {
+            background-color: #000000; /* Fondo negro para la zona del logo */
+        }
+
+        .app-brand-link {
+            color: #c0c0c0; /* Color gris claro para el texto del logo */
+        }
+
+        .app-brand-link:hover {
+            color: #ffffff; /* Blanco al pasar el mouse sobre el logo */
+        }
+
+        /* Estilos para los íconos del menú */
+        .menu-item .menu-icon {
+            color: #c0c0c0; /* Color gris claro para los íconos */
+        }
+
+        .menu-item .menu-icon:hover {
+            color: #ffffff; /* Blanco al pasar el mouse sobre los íconos */
+        }
+
+        /* Ajuste para el toggle (icono de ocultar menú) */
+        .layout-menu-toggle {
+            color: #ffffff; /* Blanco para el icono de ocultar menú */
+        }
+    </style>
+</head>
+<body>
+    <!-- Video de fondo -->
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='assets/img/video.mp4') }}" type="video/mp4">
+        Tu navegador no soporta videos en HTML5.
+    </video>
+
+    <!-- Nuevo contenido HTML con los mismos estilos aplicados -->
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+            <a href="{{ url_for('inicio') }}" class="app-brand-link">
+                <span class="app-brand-logo demo">
+                    <img src="{{ url_for('static', filename ='assets/img/logo.png') }}" alt="Logo" />
+                </span>
+            </a>
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+        <ul class="menu-inner py-5">
+            <li class="menu-item {% if request.path == '/RFID' %} active {% endif %}">
+                <a href="/RFID" class="menu-link">
+                    <i class="menu-icon bi-credit-card-2-back"></i>
+                    <div data-i18n="Tables">RFID</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
+                <a href="/lista-de-usuarios" class="menu-link">
+                    <i class="menu-icon bi bi-person-lines-fill"></i>
+                    <div data-i18n="Tables">Lista de Usuarios</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/Control-casa' %} active {% endif %}">
+                <a href="/Control-casa" class="menu-link">
+                    <i class="menu-icon bi-snow2"></i>
+                    <div data-i18n="Tables">Personalizar casa</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/Consumo-energetico' %} active {% endif %}">
+                <a href="/Consumo-energetico" class="menu-link">
+                    <i class="menu-icon bi-lightning-charge"></i>
+                    <div data-i18n="Tables">Consumo energético</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/Control-temperatura' %} active {% endif %}">
+                <a href="/Control-temperatura" class="menu-link">
+                    <i class="menu-icon bi-snow2"></i>
+                    <div data-i18n="Tables">Control temperatura</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/Avisos-de-incendios' %} active {% endif %}">
+                <a href="/Avisos-de-incendios" class="menu-link">
+                    <i class="menu-icon bi bi-fire"></i>
+                    <div data-i18n="Tables">Control de humo</div>
+                </a>
+            </li>
+            <li class="menu-item {% if request.path == '/reporte-accesos' %} active{%endif%}">
+                <a href="/reporte-accesos" class="menu-link">
+                    <i class="menu-icon bi bi-file-lock-fill"></i>
+                    <div data-i18n="Tables">Reporte Accesos</div>
+                </a>
+            </li>
+            {% if dataLogin.rol == 1 %}
+            <li class="menu-item {% if request.path == '/lista-de-areas' %} active{% endif %}">
+                <a href="/lista-de-areas" class="menu-link">
+                    <i class="menu-icon bi bi-person-lines-fill"></i>
+                    <div data-i18n="Boxicons">Lista de Áreas</div>
+                </a>
+            </li>
+            {%endif%}
+            <li class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}">
+                <a href="/mi-perfil/{{dataLogin.id}}" class="menu-link">
+                    <i class="menu-icon bi bi-person-fill-gear"></i>
+                    <div data-i18n="Tables">Mi Perfil</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('cerraSesion') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bi-box-arrow-right"></i>
+                    <div data-i18n="Tables">Salir</div>
+                </a>
+            </li>
+        </ul>
+    </aside>
+</body>
+</html>
