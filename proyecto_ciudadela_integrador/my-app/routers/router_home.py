@@ -32,7 +32,7 @@ def usuarios():
     else:
         return redirect(url_for('inicioCpanel'))
     
-@app.route("/lista-humo", methods=['GET'])
+@app.route("/Avisos-de-incendios", methods=['GET'])
 def humo():
     if 'conectado' in session:
         return render_template('public/usuarios/lista_Humo.html', resp_humoBD=lista_humoBD(), dataLogin=dataLoginSesion())
@@ -43,7 +43,7 @@ def humo():
 @app.route("/Consumo-energetico", methods=['GET'])
 def consumon_energetico():
     if 'conectado' in session:
-        return render_template('public/usuarios/Consumo_Energetico.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
+        return render_template('public/usuarios/Consumo_Energetico.html',  resp_energiaBD=lista_energiaBD(), areas=lista_areasBD(), dataLogin=dataLoginSesion())
     else:
         return redirect(url_for('inicioCpanel'))
 

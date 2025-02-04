@@ -34,7 +34,7 @@ def perfil(id):
 # Crear cuenta de usuario
 @app.route('/register-user', methods=['GET'])
 def cpanelRegisterUser():
-        return render_template(f'{PATH_URL_LOGIN}/auth_register.html',dataLogin = dataLoginSesion(), generos=lista_generoBD(), estado_civil=lista_Estado_CivilBD(), areas=lista_areasBD(), roles=lista_rolesBD())
+        return render_template(f'{PATH_URL_LOGIN}/auth_register.html',dataLogin = dataLoginSesion(), generos=lista_generoBD(), estado_civil=lista_Estado_CivilBD(), areas=lista_areasBD(), roles=lista_rolesBD(),accesos_rfid=lista_Codigo_RFIDBD())
 
 
 # Recuperar cuenta de usuario
@@ -57,18 +57,19 @@ def cpanelRegisterUserBD():
         id_estado_civil = request.form['selectEstadoCivil']
         id_area = request.form['selectArea']
         id_rol = request.form['selectRol']
+        codigo_rfid = request.form['selectCodigoRFID']  # Cambiado a 'selectCodigoRFID'
         pass_user = request.form['pass_user']
 
-
         resultData = recibeInsertRegisterUser(
-            cedula, name, surname, id_genero, id_estado_civil, id_area,id_rol,pass_user)
-        if (resultData != 0):
-            flash('la cuenta fue creada correctamente.', 'success')
+            cedula, name, surname, id_genero, id_estado_civil, id_area, id_rol, pass_user, codigo_rfid)  # Agregado codigo_rfid
+        if resultData != 0:
+            flash('La cuenta fue creada correctamente.', 'success')
             return redirect(url_for('usuarios'))
         else:
+            flash('Error al crear la cuenta.', 'error')  # Mensaje de error
             return redirect(url_for('usuarios'))
     else:
-        flash('el método HTTP es incorrecto', 'error')
+        flash('El método HTTP es incorrecto', 'error')
         return redirect(url_for('inicio'))
 
 

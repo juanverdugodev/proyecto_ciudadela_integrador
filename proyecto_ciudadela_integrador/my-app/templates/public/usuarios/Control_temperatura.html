@@ -18,7 +18,6 @@
               <th>ID</th>
               <th>Fecha </th>
               <th>Temperatura</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -27,17 +26,6 @@
                 <td>{{ temperatura.id_temperatura }}</td>
                 <td>{{ temperatura.fecha_hora }}</td>
                 <td>{{ temperatura.temperatura }}</td>
-                <td>
-                  <a
-                    style="color: white;"
-                    onclick="eliminarregistro('{{ temperatura.id_temperatura }}');"
-                    class="btn btn-danger btn-sm"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Eliminar registro de temperatura">
-                    <i class="bi bi-trash3"></i> Eliminar
-                  </a>
-                </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -57,14 +45,5 @@
 {% endblock %}
 
 {% block customJS %}
-<script>
-  function eliminarregistro(id) {
-    if (confirm("¿Estas seguro que deseas eliminar este registro de humo?")) {
-      let url = `/borrar-registro-humo/${id}`;
-      if (url) {
-        window.location.href = url;
-      }
-    }
-  }
-</script>
+
 {% endblock %}

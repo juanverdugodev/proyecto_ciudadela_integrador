@@ -18,7 +18,6 @@
               <th>ID</th>
               <th>Fecha </th>
               <th>Nivel Humo</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -27,20 +26,6 @@
                 <td>{{ humo.id_registro }}</td>
                 <td>{{ humo.fechas_registro }}</td>
                 <td>{{ humo.nivel_humo }}</td>
-                <td>
-                  <a
-                    style="color: white;"
-                    onclick="eliminarregistro('{{ humo.id_registro }}');"
-                    class="btn btn-danger btn-sm"
-                    data-bs-toggle="tooltip"
-                    data-bs-offset="0,4"
-                    data-bs-placement="top"
-                    data-bs-html="true"
-                    title="<span>Eliminar registro de humo</span>">
-                    <i class="bi bi-trash3"></i>
-                    Eliminar
-                  </a>
-                </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -59,15 +44,4 @@
 {% endif %}
 {% endblock %}
 
-{% block customJS %}
-<script>
-  function eliminarregistro(id) {
-    if (confirm("¿Estas seguro que deseas eliminar este registro de humo?")) {
-      let url = `/borrar-registro-humo/${id}`;
-      if (url) {
-        window.location.href = url;
-      }
-    }
-  }
-</script>
-{% endblock %}
+

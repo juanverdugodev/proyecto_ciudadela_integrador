@@ -11,29 +11,61 @@ import re
 from werkzeug.security import generate_password_hash
 
 # INSERTAR USUARIOS CONEXIÓN CON BD
-def recibeInsertRegisterUser(cedula, name, surname, id_genero, id_estado_civil, id_area, id_rol, pass_user):
-    respuestaValidar = validarDataRegisterLogin(
-        cedula, name, surname, pass_user)
+from datetime import datetime
+from werkzeug.security import generate_password_hash
 
-    if (respuestaValidar):
+def recibeInsertRegisterUser(cedula, name, surname, id_genero, id_estado_civil, id_area, id_rol, pass_user, codigo_rfid):
+    respuestaValidar = validarDataRegisterLogin(cedula, name, surname, pass_user)
+
+    if respuestaValidar:
         nueva_password = generate_password_hash(pass_user, method='scrypt')
+        fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Formato compatible con MySQL
+
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                    sql = """
+                    
+                    # Inserta en la tabla usuarios
+                    sql_insert = """
                     INSERT INTO usuarios(cedula, nombre_usuario, apellido_usuario, id_genero, id_estado_civil, id_area, id_rol, password) 
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                     """
-                    valores = (cedula, name, surname, id_genero, id_estado_civil, id_area, id_rol, nueva_password)
-                    mycursor.execute(sql, valores)
+                    valores_insert = (cedula, name, surname, id_genero, id_estado_civil, id_area, id_rol, nueva_password)
+                    mycursor.execute(sql_insert, valores_insert)
                     conexion_MySQLdb.commit()
-                    resultado_insert = mycursor.rowcount
-                    return resultado_insert
+                    
+                    # Obtiene el id del usuario insertado
+                    id_usuario = mycursor.lastrowid
+
+                    # Actualiza en la tabla acceso_rfid si existe el codigo_rfid
+                    sql_update = """
+                    UPDATE acceso_rfid 
+                    SET id_usuario = %s, 
+                        usuario = %s, 
+                        estado = 'Permitido',
+                        id_area = %s
+                    WHERE codigo_rfid = %s
+                    """
+                    valores_update = (id_usuario, surname, id_area, codigo_rfid)  # Corregido el orden
+                    mycursor.execute(sql_update, valores_update)
+                    conexion_MySQLdb.commit()
+
+                    resultado_update = mycursor.rowcount
+                    if resultado_update > 0:
+                        print(f"{resultado_update} registro(s) actualizado(s) en acceso_rfid con fecha {fecha_actual}.")
+                    else:
+                        print("No se encontró ningún código RFID para actualizar.")
+
+                    return mycursor.rowcount  # Devuelve la cantidad de registros insertados
+
         except Exception as e:
             print(f"Error en el Insert users: {e}")
             return []
+
     else:
         return False
+
+
 
 
 # Validando la data del Registros para el login

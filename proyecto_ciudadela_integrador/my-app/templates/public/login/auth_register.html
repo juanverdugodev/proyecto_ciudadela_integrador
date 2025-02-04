@@ -16,121 +16,92 @@
             </div>
           </div>
 
-          <form
-            class="mb-3"
-            action="{{ url_for('cpanelRegisterUserBD') }}"
-            method="POST">
+          <form class="mb-3" action="{{ url_for('cpanelRegisterUserBD') }}" method="POST">
             <div class="mb-3">
-              <label for="cedula" class="form-label">
-                Cedula
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                name="cedula"
-                placeholder="Ingrese su cédula"
-                pattern="\d{10}"
-                title="La cédula debe contener exactamente 10 dígitos"
-                required
-                autofocus />
+              <label for="cedula" class="form-label">Cédula</label>
+              <input type="text" class="form-control" name="cedula" placeholder="Ingrese su cédula" pattern="\d{10}" title="La cédula debe contener exactamente 10 dígitos" required autofocus />
             </div>
             
             <div class="row">
               <div class="mb-3 col-md-6">
-                <label for="name_surname" class="form-label">
-                  Nombre
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="name"
-                  required
-                  autofocus />
+                <label for="name_surname" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="name" required autofocus />
               </div>
               <div class="mb-3 col-md-6">
-                <label for="name_surname" class="form-label">
-                  Apellido
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="surname"
-                  required
-                  autofocus />
+                <label for="name_surname" class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="surname" required autofocus />
               </div>
-
             </div>
 
             <div class="row">
               <div class="mb-3 col-md-6">
-                <label for="genero" class="form-label">
-                  Género
-                </label>
+                <label for="genero" class="form-label">Género</label>
                 <select class="form-select" name="selectGenero">
                   <option value="" disabled selected hidden>-- Seleccionar --</option>
-                  {% for genero in generos%}
-                  <option value="{{genero.id_genero}}">{{genero.tipo_genero}}</option>
-                  {%endfor%}
+                  {% for genero in generos %}
+                  <option value="{{ genero.id_genero }}">{{ genero.tipo_genero }}</option>
+                  {% endfor %}
                 </select>
               </div>
 
               <div class="mb-3 col-md-6">
-                <label for="estado_civil" class="form-label">
-                  Estado civil
-                </label>
-                <select class="form-select" name="selectEstadoCivil" required >
+                <label for="estado_civil" class="form-label">Estado civil</label>
+                <select class="form-select" name="selectEstadoCivil" required>
                   <option value="" disabled selected hidden>-- Seleccionar --</option>
-                  {% for estado in estado_civil%}
-                  <option value="{{estado.id_estado_civil}}">{{estado.registro_civil}}</option>
-                  {%endfor%}
+                  {% for estado in estado_civil %}
+                  <option value="{{ estado.id_estado_civil }}">{{ estado.registro_civil }}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
 
             <div class="row">
               <div class="mt-3 col-md-6">
-                <label for="area" class="form-label">Area</label>
-                <select class="form-select" name="selectArea" {%if dataLogin.rol == 2 %} disabled {%endif%}>
-                  {% for area in areas%}
-                  <option value="{{area.id_area}}">{{area.nombre_area}}</option>
-                  {%endfor%}
+                <label for="area" class="form-label">Área</label>
+                <select class="form-select" name="selectArea" {% if dataLogin.rol == 2 %} disabled {% endif %}>
+                  {% for area in areas %}
+                  <option value="{{ area.id_area }}">{{ area.nombre_area }}</option>
+                  {% endfor %}
                 </select>
-                
               </div>
-              <div class="mt-3 col-md-6" >
+              <div class="mt-3 col-md-6">
                 <label for="rol" class="form-label">Rol</label>
-                <select class="form-select" name="selectRol" {%if dataLogin.rol == 2 %} disabled {%endif%}>
-                  {% for rol in roles%}
-                  <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
-                  {%endfor%}
+                <select class="form-select" name="selectRol" {% if dataLogin.rol == 2 %} disabled {% endif %}>
+                  {% for rol in roles %}
+                  <option value="{{ rol.id_rol }}">{{ rol.nombre_rol }}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
 
+            <div class="row">
+              <div class="mb-3 col-md-12">
+                <label for="codigo_rfid" class="form-label">Tarjeta RFID</label>
+                <select class="form-select" name="selectCodigoRFID" required>
+                  <option value="" disabled selected hidden>Seleccionar Tarjeta RFID</option>
+                  {% for rfid in accesos_rfid %}
+                    {% if rfid.estado == "Denegado" %}
+                      <option value="{{ rfid.codigo_rfid }}">{{ rfid.codigo_rfid }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
             
+
             <div class="mb-3 form-password-toggle mt-3">
               <label class="form-label" for="pass_user">Clave</label>
               <div class="input-group input-group-merge">
-                  <input
-                      type="password"
-                      class="form-control"
-                      name="pass_user"
-                      id="pass_user"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password"
-                      required
-                      minlength="8"
-                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
-                      title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." />
-                  <span class="input-group-text cursor-pointer">
-                      <i class="bx bx-hide"></i>
-                  </span>
+                <input type="password" class="form-control" name="pass_user" id="pass_user" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." />
+                <span class="input-group-text cursor-pointer">
+                  <i class="bx bx-hide"></i>
+                </span>
               </div>
               <small class="form-text text-muted">
-                  La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial.
+                La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial.
               </small>
-          </div>
-          
+            </div>
+            
             <button class="btn btn-primary w-100">
               Crear cuenta
               <i class="bi bi-arrow-right-circle"></i>
@@ -138,9 +109,7 @@
           </form>
 
           <div class="text-center">
-            <a
-              href="{{ url_for('usuarios') }}"
-              class="d-flex align-items-center justify-content-center">
+            <a href="{{ url_for('usuarios') }}" class="d-flex align-items-center justify-content-center">
               <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
               volver
             </a>

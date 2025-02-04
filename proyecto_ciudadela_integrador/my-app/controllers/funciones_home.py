@@ -158,7 +158,35 @@ def lista_humoBD():
         print(f"Error en lista_humoBD : {e}")
         # Puedes retornar un valor vacío o None para indicar que hubo un error
         return []
-
+# Lista de registros de energia
+def lista_energiaBD():
+    try:
+        # Establecer la conexión con la base de datos
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Consultar todos los registros de la tabla 'humo'
+                querySQL ="""SELECT 
+                    id_energia,
+                    fecha_hora,
+                    consumo,
+                    id_area
+                FROM energia"""
+                
+                cursor.execute(querySQL)
+                
+                # Obtener los resultados y devolverlos
+                energiaBD = cursor.fetchall()
+                
+                # Verificar si no hay registros
+                if not energiaBD:
+                    print("No se encontraron registros de energia.")
+                
+                return energiaBD
+    except Exception as e:
+        print(f"Error en lista_humoBD : {e}")
+        # Puedes retornar un valor vacío o None para indicar que hubo un error
+        return []
+    
 def lista_estados_civilesBD():
     try:
         with connectionBD() as conexion_MySQLdb:
@@ -171,7 +199,7 @@ def lista_estados_civilesBD():
     except Exception as e:
         print(f"Error en lista_estados_civiles: {e}")
         return []
-    
+
 def lista_areasBD():
     try:
         with connectionBD() as conexion_MySQLdb:
@@ -315,6 +343,20 @@ def lista_rolesBD():
     except Exception as e:
         print(f"Error en select roles : {e}")
         return []
+# BUSCAR CÓDIGOS RFID
+def lista_Codigo_RFIDBD():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT * FROM acceso_rfid"
+                cursor.execute(querySQL)
+                codigos_rfid = cursor.fetchall()
+                
+                return codigos_rfid
+    except Exception as e:
+        print(f"Error en select acceso_rfid: {e}")
+        return []
+
 ##CREAR AREA
 def guardarArea(area_name):
     try:
