@@ -1,9 +1,10 @@
 {% extends 'public/base_cpanel.html' %}
 <!--Cambiando el title-->
-{% block title %}Reverie Control Panel 🖥️| Lista de Usuarios{% endblock %}
+{% block title %}Monte Verde Control Panel 🖥️| Lista de Usuarios{% endblock %}
 <!---->
-{% block body %} {% if (resp_usuariosBD) %}
-
+{% block body %}
+{% if dataLogin.rol == 1 %} <!-- SI EL USUARIO ES UN ADMINISTRADOR-->
+{% if (resp_usuariosBD) %}
 <div class="card content_consignaciones" style="border-radius: 0px !important">
   <section id="respuestaFiltroMes">
     <h2 class="text-center mt-5 mb-5">
@@ -87,11 +88,18 @@
 <div class="container mt-3 mb-3" style="width: 100% !important">
   <div class="row justify-content-md-center mb-2">
     <div class="col-12">
-      <h2 class="text-center">No hay usuarios 😭</h2>
+      <h2 class="text-center">No hay usuarios</h2>
     </div>
   </div>
 </div>
 {% endif %}
+
+{% else %} <!--SI NO TIENE PERMISO COMO ADMINISTRADOR-->
+<div class="alert alert-danger text-center mt-5" role="alert">
+  Permiso denegado.
+</div>
+{% endif %}<!--Fin del Block-->
+
 <!--Fin del Block-->
 {% endblock %}
 
@@ -108,3 +116,4 @@
   }
 </script>
 {% endblock %}
+

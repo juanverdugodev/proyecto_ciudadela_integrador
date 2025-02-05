@@ -16,77 +16,116 @@
             object-fit: cover;
             z-index: -1;
         }
-
+    
         /* Estilos generales para el texto y fondos */
         body {
-            color: #c0c0c0; /* Color gris claro para el texto */
-            background-color: #2d2d2d; /* Fondo oscuro para contraste */
+            color: #ffffff; /* Color gris claro para el texto */
+            background-color: #ffffff; /* Fondo oscuro para contraste */
         }
-
-        /* Efectos para los botones */
+    
+        /* Estilos para el panel del slidebar */
+        aside#layout-menu {
+            background-color: rgba(253, 253, 253, 0.4) !important; /* Hacer el fondo del panel menos transparente */
+        }
+    
+        /* Mantener el mismo nivel de transparencia al pasar el cursor */
+        aside#layout-menu:hover {
+            background-color: rgba(253, 253, 253, 0.4) !important; /* Mantener el fondo transparente al pasar el cursor */
+        }
+    
+        /* Definir la animación */
+        @keyframes slideInLeft {
+            0% {
+                background-color: transparent;
+            }
+            100% {
+                background-color: #000000;
+            }
+        }
+    
+        /* Efectos para los botones con animación al pasar el cursor */
+        .menu-item .menu-link {
+            color: #000000; /* Color del texto */
+            background-color: transparent;
+            overflow: hidden;
+            position: relative;
+        }
+    
+        .menu-item .menu-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* Color negro para la animación */
+            z-index: 0;
+            transition: left 0.5s ease;
+        }
+    
+        .menu-item:hover:not(.active) .menu-link::before {
+            left: 0;
+            z-index: -1; /* Asegurarse de que la pseudo-clase esté detrás del texto */
+        }
+    
+        .menu-item:hover:not(.active) .menu-link {
+            color: #ffffff; /* Color del texto al pasar el cursor */
+            z-index: 1; /* Asegurarse de que el texto esté por encima del fondo animado */
+        }
+    
+        .menu-item:hover:not(.active) .menu-icon {
+            color: #ffffff; /* Blanco para los íconos al pasar el cursor */
+        }
+    
+        /* Efectos para los íconos al pasar el cursor */
+        .menu-item .menu-icon {
+            color: #000000; /* Color gris claro para los íconos */
+            position: relative; /* Asegurarse de que el ícono esté en la misma capa que el texto */
+            z-index: 1; /* Asegurarse de que el ícono esté por encima del fondo animado */
+        }
+    
+        .menu-item:hover:not(.active) .menu-icon {
+            color: #ffffff; /* Blanco para los íconos al pasar el cursor */
+        }
+    
+        /* Efectos para el menú activo */
         .menu-item.active .menu-link {
-            background-color: #28a745; /* Verde */
-            color: #ffffff; /* Blanco */
+            background-color: rgba(0, 0, 0, 0.8); /* Negro con transparencia para el menú activo */
+            color: #28a745; /* Verde para las letras */
             border-radius: 5px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        .menu-item .menu-link {
-            color: #c0c0c0; /* Color gris claro para el texto de los botones */
-        }
-
-        .menu-item .menu-link:hover {
-            background-color: #333333; /* Gris oscuro para hover */
-            color: #ffffff; /* Blanco */
-        }
-
-        .menu-item.active .menu-link {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .menu-item.active .menu-icon {
-            transform: rotate(360deg);
-            transition: transform 0.5s ease;
-        }
-
-        /* Estilos para el menú lateral */
-        .layout-menu {
-            background-color: #000000; /* Fondo negro para todo el menú lateral */
-        }
-
-        .menu-inner {
-            background-color: #000000; /* Fondo negro para el menú interno */
-        }
-
+    
         /* Estilos para el logo */
-        .app-brand {
-            background-color: #000000; /* Fondo negro para la zona del logo */
+        .app-brand img {
+            max-width: 207px;
+            max-height: 118px;
+            width: auto; /* Ancho deseado */
+            height: auto; /* Altura deseada */
+            display: block; /* Asegurarse de que el logo se muestre como un bloque */
+            margin: 0 auto; /* Centrar el logo horizontalmente */
+            align-items: center; /* Centrar verticalmente */
+            justify-content: center; /* Centrar horizontalmente */
+            overflow: hidden; /* Asegurar que el logo no se desborde */
+            z-index: 1; /* Asegurarse de que el logo esté por encima de otros elementos */
+            position: relative; /* Asegurarse de que el logo no se desplace con el fondo */
         }
-
-        .app-brand-link {
-            color: #c0c0c0; /* Color gris claro para el texto del logo */
-        }
-
+    
+        /* Mantener el mismo nivel de transparencia al pasar el cursor sobre el logo */
+        .app-brand:hover,
         .app-brand-link:hover {
-            color: #ffffff; /* Blanco al pasar el mouse sobre el logo */
+            background-color: transparent !important; 
         }
-
+    
         /* Estilos para los íconos del menú */
-        .menu-item .menu-icon {
-            color: #c0c0c0; /* Color gris claro para los íconos */
-        }
-
         .menu-item .menu-icon:hover {
             color: #ffffff; /* Blanco al pasar el mouse sobre los íconos */
         }
-
-        /* Ajuste para el toggle (icono de ocultar menú) */
-        .layout-menu-toggle {
-            color: #ffffff; /* Blanco para el icono de ocultar menú */
-        }
     </style>
+    
+    
+        
+        
 </head>
 <body>
     <!-- Video de fondo -->
@@ -116,12 +155,14 @@
                     <div data-i18n="Tables">RFID</div>
                 </a>
             </li>
+            {% if dataLogin.rol == 1 %} <!-- MUESTRA SI ES UN ADMINISTRADOR-->
             <li class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
                 <a href="/lista-de-usuarios" class="menu-link">
                     <i class="menu-icon bi bi-person-lines-fill"></i>
                     <div data-i18n="Tables">Lista de Usuarios</div>
                 </a>
             </li>
+            {% endif %} <!--Fin del Block-->
             <li class="menu-item {% if request.path == '/Control-casa' %} active {% endif %}">
                 <a href="/Control-casa" class="menu-link">
                     <i class="menu-icon bi-snow2"></i>

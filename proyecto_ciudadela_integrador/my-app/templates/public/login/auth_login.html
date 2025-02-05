@@ -140,6 +140,27 @@
         .label-clave {
             color: var(--white);
         }
+
+        /* Estilos para el logo */
+        .app-brand img {
+            max-width: 207px;
+            max-height: 118px;
+            width: auto; /* Ancho deseado */
+            height: auto; /* Altura deseada */
+            display: block; /* Asegurarse de que el logo se muestre como un bloque */
+            margin: 0 auto; /* Centrar el logo horizontalmente */
+            align-items: center; /* Centrar verticalmente */
+            justify-content: center; /* Centrar horizontalmente */
+            overflow: hidden; /* Asegurar que el logo no se desborde */
+            z-index: 1; /* Asegurarse de que el logo esté por encima de otros elementos */
+            position: relative; /* Asegurarse de que el logo no se desplace con el fondo */
+        }
+
+        /* Quitar el fondo al pasar el cursor sobre el logo */
+        .app-brand:hover,
+        .app-brand-link:hover {
+            background-color: transparent !important; /* Quitar el fondo al pasar el cursor */
+        }
     </style>
 </head>
 <body>
@@ -174,7 +195,7 @@
                                     type="text"
                                     class="form-control"
                                     name="cedula"
-                                    placeholder="Ingresa tu cédula"
+                                    placeholder="Ingrese su cédula"
                                     autofocus
                                     required />
                             </div>
@@ -188,7 +209,7 @@
                                         class="form-control"
                                         name="pass_user"
                                         id="pass_user"
-                                        placeholder="Ingresa clave"
+                                        placeholder="Ingrese su clave"
                                         aria-describedby="password"
                                         required />
                                     <span class="input-group-text cursor-pointer" id="togglePassword">
