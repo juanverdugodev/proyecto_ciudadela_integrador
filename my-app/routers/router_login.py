@@ -36,6 +36,39 @@ def perfil(id):
 def cpanelRegisterUser():
         return render_template(f'{PATH_URL_LOGIN}/auth_register.html',dataLogin = dataLoginSesion(), generos=lista_generoBD(), estado_civil=lista_Estado_CivilBD(), areas=lista_areasBD(), roles=lista_rolesBD(),accesos_rfid=lista_Codigo_RFIDBD())
 
+from flask import redirect, url_for
+
+@app.route('/color-perzonalizar', methods=['GET', 'POST'])
+def color_casaBD():
+    # Si es una solicitud POST, obtener el color seleccionado y actualizar la base de datos
+    if request.method == 'POST':
+        color_seleccionado = request.form.get('selectColorCasa')
+        nroHogar = request.form.get('selectNumeroHogar')  # Usar el valor del formulario
+        
+        if color_seleccionado and nroHogar:
+            # Llamar a la función para actualizar el color en la base de datos
+            actualizar_color_hogar(nroHogar, color_seleccionado)
+            
+            # Redirigir a la misma página para que se refleje el cambio
+            return redirect(url_for('color_casaBD', numero_hogar=nroHogar))
+
+    # Si es una solicitud GET, obtener el número de hogar de la URL (si existe)
+    nroHogar = request.args.get('numero_hogar')  # Obtener el número de hogar desde la URL
+    if not nroHogar:
+        # Si no existe nroHogar, devolver un error o una página de ayuda
+        return "Número de hogar no proporcionado", 400
+
+    # Obtener los colores disponibles
+    colores_disponibles = lista_colores_hogarBD()
+
+    return render_template(
+        f'{PATH_URL_LOGIN}/color_perzonalizar.html',
+        dataLogin=dataLoginSesion(),
+        coloresDisponibles=colores_disponibles,
+        nroHogar=nroHogar  # Pasar el número de hogar a la plantilla
+    )
+
+
 
 # Recuperar cuenta de usuario
 @app.route('/recovery-password', methods=['GET'])

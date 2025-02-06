@@ -47,13 +47,7 @@ def consumon_energetico():
     else:
         return redirect(url_for('inicioCpanel'))
 
-    
-@app.route("/Control-casa", methods=['GET'])
-def Control_casa():
-    if 'conectado' in session:
-        return render_template('public/usuarios/Iluminacion.html',  resp_usuariosBD=lista_usuariosBD(), dataLogin=dataLoginSesion(), areas=lista_areasBD(), roles = lista_rolesBD(), estados_civiles=lista_estados_civilesBD())
-    else:
-        return redirect(url_for('inicioCpanel'))
+
 
 
 
@@ -69,7 +63,19 @@ def lista_acceso_rfid():
         )
     else:
         return redirect(url_for('inicioCpanel'))
+    
 
+@app.route("/Control-casa", methods=['GET'])
+def Control_casa():
+    if 'conectado' in session:
+        return render_template(
+            'public/usuarios/iluminacion.html',  
+            resp_casasBD=lista_casasBD(),  # Lista de casas desde la base de datos
+            dataLogin=dataLoginSesion()  # Información de la sesión del usuario
+        )
+    else:
+        return redirect(url_for('inicioCpanel'))
+    
 
 #Ruta especificada para eliminar un usuario
 @app.route('/borrar-usuario/<string:id>', methods=['GET'])

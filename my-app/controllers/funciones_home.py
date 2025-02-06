@@ -315,6 +315,41 @@ def lista_generoBD():
         print(f"Error en select genero : {e}")
         return []
 #---------------------------------------------------
+# BUSCAR NUMERO DE HOGAR
+def lista_numero_hogarBD():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT numero_hogar FROM hogar"
+                cursor.execute(querySQL)
+                hogares = cursor.fetchall()
+
+            # Asegúrate de que esto sea una lista de diccionarios
+            return hogares  # Esto debería ser una lista de diccionarios, no una lista de cadenas
+
+    except Exception as e:
+        print(f"Error en select numero_hogar: {e}")
+        return []
+#Lista colores 
+def lista_colores_hogarBD():
+    try:
+        # Conexión a la base de datos
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                # Consulta SQL para obtener id_color y color_iluminacion
+                querySQL = "SELECT id_color, color_iluminacion FROM colores_hogar"
+                cursor.execute(querySQL)
+                colores = cursor.fetchall()
+
+            # Retornar un diccionario con id_color como clave y color_iluminacion como valor
+            lista_colores = {hogar['id_color']: hogar['color_iluminacion'] for hogar in colores}
+
+            return lista_colores
+
+    except Exception as e:
+        print(f"Error en select color: {e}")
+        return {}
+
 
 # BUSCAR ESTADO
 def lista_Estado_CivilBD():
@@ -457,4 +492,79 @@ def lista_rfidBD():
         print(f"Error en lista_rfidBD : {e}")
         return []
 
+def lista_casasBD():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                # Consulta para obtener número de hogar y color de iluminación desde colores_hogar
+                querySQL = """
+                SELECT 
+                    hogar.numero_hogar, 
+                    colores_hogar.color_iluminacion
+                FROM hogar
+                INNER JOIN colores_hogar ON hogar.numero_hogar = colores_hogar.numero_hogar
+                """
+                cursor.execute(querySQL)
+                casasBD = cursor.fetchall()
 
+                # Diccionario de colores (puedes ampliar o personalizar este diccionario)
+                color_map = {
+                    'rgb(255, 0, 0)': 'Rojo',
+                    'rgb(0, 255, 0)': 'Verde',
+                    'rgb(0, 0, 255)': 'Azul',
+                    'rgb(255, 255, 0)': 'Amarillo',
+                    'rgb(0, 255, 255)': 'Cian',
+                    'rgb(255, 0, 255)': 'Magenta',
+                    'rgb(255, 165, 0)': 'Naranja',
+                    'rgb(128, 0, 128)': 'Púrpura',
+                    'rgb(255, 255, 255)': 'Blanco',
+                    'rgb(0, 0, 0)': 'Negro'
+                }
+
+                # Mapear el código RGB a un nombre
+                for casa in casasBD:
+                    if casa['color_iluminacion'] in color_map:
+                        casa['color_iluminacion'] = color_map[casa['color_iluminacion']]
+
+                if not casasBD:
+                    print("No se encontraron registros en la tabla casas o colores.")
+
+                return casasBD
+    except Exception as e:
+        print(f"Error en lista_casasBD: {e}")
+        return []
+
+
+
+def guardar_color_hogar(numero_hogar, color):
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor() as cursor:
+                # Aquí deberías tener tu consulta SQL para actualizar el color del hogar
+                querySQL = "UPDATE hogar SET color_iluminacion = %s WHERE numero_hogar = %s"
+                cursor.execute(querySQL, (color, numero_hogar))
+                conexion_MYSQLdb.commit()  # Asegúrate de hacer commit para guardar los cambios
+    except Exception as e:
+        print(f"Error al guardar el color del hogar: {e}")
+
+
+
+
+
+
+
+def actualizar_color_hogar(numero_hogar, color):
+    try:
+        # Conexión a la base de datos
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor() as cursor:
+                # Consulta SQL para actualizar el color de iluminación en el hogar
+                querySQL = """
+                    UPDATE colores_hogar
+                    SET color_iluminacion = %s
+                    WHERE numero_hogar = %s
+                """
+                cursor.execute(querySQL, (color, numero_hogar))
+                conexion_MYSQLdb.commit()  # Confirmar los cambios
+    except Exception as e:
+        print(f"Error al actualizar el color del hogar: {e}")
