@@ -12,7 +12,7 @@ def connectionBD():
             connection = mysql.connector.connect(
                 host="34.68.99.255",
                 port=3306,
-                user="Administrador",
+                user="Administrador_Servicios",
                 passwd="@PI_2ciudadela",
                 database="ciudadela",
                 raise_on_warnings=True
