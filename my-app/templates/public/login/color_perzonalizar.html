@@ -24,16 +24,17 @@
             </div>
 
             <!-- Lista de colores disponibles para seleccionar -->
-            <div class="mb-3">
-              <label for="color_casa" class="form-label">Nuevo Color de Iluminación</label>
-              <div class="color-palette">
+            <div class="color-palette">
+              {% if coloresDisponibles %}
                 {% for color in coloresDisponibles %}
-                <label class="color-option" style="background-color: {{ color }};" title="{{ color }}">
-                  <input type="radio" name="selectColorCasa" value="{{ color }}" required>
-                  <span class="sr-only">{{ color }}</span>
-                </label>
+                  <label class="color-option">
+                    <input type="radio" name="selectColorCasa" value="{{ color.id_color }}" required>
+                    {{ color.color_iluminacion }}
+                  </label>
                 {% endfor %}
-              </div>
+              {% else %}
+                <p>No hay colores disponibles.</p>
+              {% endif %}
             </div>
 
             <button class="btn btn-primary w-100">
@@ -53,65 +54,5 @@
     </div>
   </div>
 </div>
-
-<!-- Estilo CSS mejorado para la paleta de colores -->
-<style>
-  .color-palette {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .color-option {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .color-option input[type="radio"] {
-    display: none;
-  }
-
-  .color-option:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-
-  .color-option input[type="radio"]:checked + span {
-    border: 2px solid #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-
-  .sr-only {
-    position: absolute;
-    visibility: hidden;
-  }
-
-  .color-option[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    animation: fadeIn 0.3s forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-</style>
 
 {% endblock %}
