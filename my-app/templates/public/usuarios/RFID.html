@@ -1,20 +1,27 @@
 {% extends 'public/base_cpanel.html' %}
 
-{% block title %}Monte Verde Control Panel 🖥️| Lista de Usuarios{% endblock %}
-
 {% block body %}
-{% if resp_rfidBD %}
 <div class="card content_consignaciones" style="border-radius: 0px !important">
-  <section id="respuestaFiltroMes">
+  <section id="datosRFID">
     <h2 class="text-center mt-5 mb-5">
       Lista de Accesos RFID
       <hr />
     </h2>
 
+    <!-- Contenedor de notificación fija (se mostrará cuando llegue un nuevo registro) -->
+    <div id="rfid_notification" class="text-center mb-3" style="display: none; padding: 10px; border-radius: 4px; font-weight: bold;"></div>
+
+    <!-- Botón para generar Excel (solo visible para rol 1) -->
+    {% if dataLogin.rol == 1 %}
+    <div class="text-center mb-4">
+      <button id="btnExportarExcel" class="btn btn-info">Generar Excel</button>
+    </div>
+    {% endif %}
+
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover table-sm"> <!-- Clase table-sm para reducir el tamaño -->
+      <table class="table table-hover" id="tablaRFID">
         <thead>
-          <tr style="background-color: #ddd">
+          <tr class="table-secondary">
             <th>ID Registro</th>
             <th>ID Usuario</th>
             <th>Fecha Hora Ingreso</th>
@@ -28,31 +35,103 @@
           {% for acceso_rfid in resp_rfidBD %}
           <tr>
             <td>{{ acceso_rfid.id_registro }}</td>
-            <td>{{ acceso_rfid.id_usuario }}</td> <!-- Asegúrate de que este campo sea correcto -->
+            <td>{{ acceso_rfid.id_usuario }}</td>
             <td>{{ acceso_rfid.fecha_registro }}</td>
             <td>{{ acceso_rfid.codigo_rfid }}</td>
-            <td>{{ acceso_rfid.id_area or 'No Especificado' }}</td>
-            <td>{{ acceso_rfid.usuario or 'Desconocido' }}</td>
-            <td>{{ acceso_rfid.estado or 'No Especificado' }}</td>
+            <td>{{ acceso_rfid.id_area }}</td>
+            <td>{{ acceso_rfid.usuario }}</td>
+            <td class="fw-bold text-center" style="color: {{ 'red' if acceso_rfid.estado == 'denegado' else 'green' }}">
+              {{ acceso_rfid.estado }}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+    <!-- Contenedor de paginación -->
+    <div id="pagination" class="pagination-container mt-3 text-center"></div>
   </section>
 </div>
-{% else %}
-<div class="container mt-3 mb-3" style="width: 100% !important">
-  <div class="row justify-content-md-center mb-2">
-    <div class="col-12">
-      <h2 class="text-center">No hay Registros</h2>
-    </div>
-  </div>
-</div>
-{% endif %}
-
 {% endblock %}
 
-{% block scripts %}
-<!-- Aquí puedes agregar scripts personalizados si es necesario -->
+{% block customJS %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const rowsPerPage = 15;
+    let currentPage = 1;
+    
+    function updateTablePagination() {
+      const rows = document.querySelectorAll('#tablaRFID tbody tr');
+      const totalPages = Math.ceil(rows.length / rowsPerPage);
+      if (currentPage > totalPages) currentPage = totalPages;
+      rows.forEach((row, index) => {
+        row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
+      });
+    }
+
+    function renderPaginationControls() {
+      const rows = document.querySelectorAll('#tablaRFID tbody tr');
+      const totalPages = Math.ceil(rows.length / rowsPerPage);
+      const paginationContainer = document.getElementById('pagination');
+      paginationContainer.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = "Anterior";
+      prevBtn.classList.add('btn', 'btn-secondary', 'mx-1');
+      prevBtn.disabled = (currentPage === 1);
+      prevBtn.addEventListener('click', () => setPage(currentPage - 1));
+      paginationContainer.appendChild(prevBtn);
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.add('btn', 'mx-1', (i === currentPage) ? 'btn-primary' : 'btn-outline-primary');
+        btn.addEventListener('click', () => setPage(i));
+        paginationContainer.appendChild(btn);
+      }
+      
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = "Siguiente";
+      nextBtn.classList.add('btn', 'btn-secondary', 'mx-1');
+      nextBtn.disabled = (currentPage === totalPages);
+      nextBtn.addEventListener('click', () => setPage(currentPage + 1));
+      paginationContainer.appendChild(nextBtn);
+    }
+
+    function setPage(page) {
+      currentPage = page;
+      updateTablePagination();
+      renderPaginationControls();
+    }
+
+    updateTablePagination();
+    renderPaginationControls();
+
+    // Exportar a Excel
+    document.getElementById('btnExportarExcel').addEventListener('click', function () {
+      const table = document.getElementById('tablaRFID');
+      const data = [];
+      
+      // Obtener encabezados
+      const headers = [];
+      table.querySelectorAll('thead th').forEach(th => headers.push(th.innerText.trim()));
+      data.push(headers);
+      
+      // Obtener datos de la tabla
+      table.querySelectorAll('tbody tr').forEach(tr => {
+        const rowData = [];
+        tr.querySelectorAll('td').forEach(td => rowData.push(td.innerText.trim()));
+        data.push(rowData);
+      });
+      
+      // Crear el archivo Excel
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Accesos_RFID");
+      XLSX.writeFile(wb, 'Lista_Accesos_RFID.xlsx');
+    });
+  });
+</script>
 {% endblock %}
