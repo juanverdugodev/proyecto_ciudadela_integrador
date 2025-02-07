@@ -25,7 +25,7 @@
               <tr>
                 <td>{{ temperatura.id_temperatura }}</td>
                 <td>{{ temperatura.fecha_hora }}</td>
-                <td>{{ temperatura.temperatura }}</td>
+                <td class="temp-value">{{ temperatura.temperatura|round(0) }} °C</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -45,5 +45,25 @@
 {% endblock %}
 
 {% block customJS %}
+<style>
+  .temperatura-alta {
+      background-color: red !important;
+      color: white !important;
+  }
+</style>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("tbody tr").forEach(function (fila) {
+      let celdaTemperatura = fila.querySelector(".temp-value"); // Seleccionar celda con la temperatura
+      if (celdaTemperatura) {
+        let temperaturaTexto = celdaTemperatura.textContent.trim(); // Eliminar espacios
+        let temperatura = parseInt(temperaturaTexto.replace("°C", "").trim()); // Extraer número
+        if (!isNaN(temperatura) && temperatura >= 26) {
+          fila.classList.add("temperatura-alta"); // Aplicar clase si es >= 26°C
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}
