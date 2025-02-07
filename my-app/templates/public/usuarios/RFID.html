@@ -11,9 +11,8 @@
       <hr />
     </h2>
 
-
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover table-sm"> <!-- Clase table-sm para reducir el tamaño -->
         <thead>
           <tr style="background-color: #ddd">
             <th>ID Registro</th>
@@ -23,18 +22,27 @@
             <th>ID Área</th>
             <th>Usuario</th>
             <th>Estado</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {% for acceso_rfid in resp_rfidBD %}
           <tr>
-            <td>{{ acceso_rfid.id_rfid }}</td>
-            <td>{{ acceso_rfid.id_usuario }}</td>
+            <td>{{ acceso_rfid.id_registro }}</td>
+            <td>{{ acceso_rfid.id_usuario }}</td> <!-- Asegúrate de que este campo sea correcto -->
             <td>{{ acceso_rfid.fecha_registro }}</td>
             <td>{{ acceso_rfid.codigo_rfid }}</td>
             <td>{{ acceso_rfid.id_area or 'No Especificado' }}</td>
             <td>{{ acceso_rfid.usuario or 'Desconocido' }}</td>
             <td>{{ acceso_rfid.estado or 'No Especificado' }}</td>
+            <td>
+              href="/mi-perfil/{{usuario.id_usuario}}"
+              class="btn btn-success btn-sm"
+              tooltip="Actualizar Registro">
+              <i class="bi bi-arrow-clockwise"></i>
+              Actualizar
+            </td>
+
           </tr>
           {% endfor %}
         </tbody>
@@ -50,7 +58,6 @@
     </div>
   </div>
 </div>
-
 {% endif %}
 
 {% endblock %}
@@ -58,4 +65,3 @@
 {% block scripts %}
 <!-- Aquí puedes agregar scripts personalizados si es necesario -->
 {% endblock %}
-                                                           

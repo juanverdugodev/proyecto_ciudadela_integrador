@@ -24,17 +24,14 @@
             </div>
 
             <!-- Lista de colores disponibles para seleccionar -->
-            <div class="color-palette">
-              {% if coloresDisponibles %}
-                {% for color in coloresDisponibles %}
-                  <label class="color-option">
-                    <input type="radio" name="selectColorCasa" value="{{ color.id_color }}" required>
-                    {{ color.color_iluminacion }}
-                  </label>
+            <div class="mb-3">
+              <label for="color_casa" class="form-label">Nuevo Color de Iluminación</label>
+              <select name="selectColorCasa" class="form-select" required>
+                <option value="" disabled selected>Selecciona un color</option>
+                {% for color in colores %}
+                  <option value="{{ color.id_color }}">{{ color.color }}</option>
                 {% endfor %}
-              {% else %}
-                <p>No hay colores disponibles.</p>
-              {% endif %}
+              </select>
             </div>
 
             <button class="btn btn-primary w-100">

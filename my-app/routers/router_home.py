@@ -15,6 +15,8 @@ def lista_areas():
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
     
+
+   
 @app.route("/Control-temperatura", methods=['GET'])
 def lista_temperaturas():
     if 'conectado' in session:
@@ -47,10 +49,6 @@ def consumon_energetico():
     else:
         return redirect(url_for('inicioCpanel'))
 
-
-
-
-
 @app.route("/RFID", methods=['GET'])
 def lista_acceso_rfid():
     if 'conectado' in session:
@@ -64,19 +62,7 @@ def lista_acceso_rfid():
     else:
         return redirect(url_for('inicioCpanel'))
     
-
-@app.route("/Control-casa", methods=['GET'])
-def Control_casa():
-    if 'conectado' in session:
-        return render_template(
-            'public/usuarios/iluminacion.html',  
-            resp_casasBD=lista_casasBD(),  # Lista de casas desde la base de datos
-            dataLogin=dataLoginSesion()  # Información de la sesión del usuario
-        )
-    else:
-        return redirect(url_for('inicioCpanel'))
     
-
 #Ruta especificada para eliminar un usuario
 @app.route('/borrar-usuario/<string:id>', methods=['GET'])
 def borrarUsuario(id):
@@ -104,6 +90,10 @@ def reporteBD():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+    
+
+
+
     
 @app.route("/reporte-accesos", methods=['GET'])
 def reporteAccesos():
