@@ -14,9 +14,8 @@ def lista_areas():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+        
     
-
-   
 @app.route("/Control-temperatura", methods=['GET'])
 def lista_temperaturas():
     if 'conectado' in session:
@@ -48,6 +47,10 @@ def consumon_energetico():
         return render_template('public/usuarios/Consumo_Energetico.html',  resp_energiaBD=lista_energiaBD(), areas=lista_areasBD(), dataLogin=dataLoginSesion())
     else:
         return redirect(url_for('inicioCpanel'))
+
+
+
+
 
 @app.route("/RFID", methods=['GET'])
 def lista_acceso_rfid():

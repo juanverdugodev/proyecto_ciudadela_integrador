@@ -22,7 +22,6 @@
             <th>ID Área</th>
             <th>Usuario</th>
             <th>Estado</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -35,14 +34,6 @@
             <td>{{ acceso_rfid.id_area or 'No Especificado' }}</td>
             <td>{{ acceso_rfid.usuario or 'Desconocido' }}</td>
             <td>{{ acceso_rfid.estado or 'No Especificado' }}</td>
-            <td>
-              href="/mi-perfil/{{usuario.id_usuario}}"
-              class="btn btn-success btn-sm"
-              tooltip="Actualizar Registro">
-              <i class="bi bi-arrow-clockwise"></i>
-              Actualizar
-            </td>
-
           </tr>
           {% endfor %}
         </tbody>
