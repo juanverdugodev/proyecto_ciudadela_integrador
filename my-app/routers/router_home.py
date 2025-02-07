@@ -49,7 +49,13 @@ def consumon_energetico():
         return redirect(url_for('inicioCpanel'))
 
 
-
+@app.route("/ImagenesPCB", methods=['GET'])
+def ImagenesPCB():
+    if 'conectado' in session:
+        return render_template('public/usuarios/ImagenesPCB.html', dataLogin=dataLoginSesion())
+    else:
+        return redirect(url_for('inicioCpanel'))
+    
 
 
 @app.route("/RFID", methods=['GET'])

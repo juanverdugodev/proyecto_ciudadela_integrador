@@ -1,0 +1,170 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block title %}Monte Verde Control Panel 🖥️| Galería de Fotos{% endblock %}
+
+{% block body %}
+<div class="card content_consignaciones" style="border-radius: 0px !important">
+  <section id="galeriaFotos">
+    <div class="text-center mt-4 mb-4">
+      <h2>Galería de Fotos</h2>
+      <hr class="mx-auto" style="width: 60%; border: 2px solid black;">
+    </div>
+
+    <div id="carouselFotos" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div class="carousel-item active">
+          <img src="static/assets/img_PCB/foto1.png" class="d-block w-100 img-custom" alt="Diseño layout">
+          <div class="carousel-caption">
+            <p>Diseño layout</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto2.png" class="d-block w-100 img-custom" alt="Diseño 3D">
+          <div class="carousel-caption">
+            <p>Diseño 3D</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto3.jpg" class="d-block w-100 img-custom" alt="Impresión pistas">
+          <div class="carousel-caption">
+            <p>Impresión pistas</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto4.jpg" class="d-block w-100 img-custom" alt="Medidas para transferencia">
+          <div class="carousel-caption">
+            <p>Medidas para transferencia</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto5.jpg" class="d-block w-100 img-custom" alt="Transferencia por método de planchado">
+          <div class="carousel-caption">
+            <p>Transferencia por método de planchado</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto6.jpg" class="d-block w-100 img-custom" alt="Corrosión de Cobre">
+          <div class="carousel-caption">
+            <p>Corrosión de Cobre</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto7.jpg" class="d-block w-100 img-custom" alt="Pistas en Cobre">
+          <div class="carousel-caption">
+            <p>Pistas en Cobre</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto8.jpg" class="d-block w-100 img-custom" alt="Perforado de placa">
+          <div class="carousel-caption">
+            <p>Perforado de placa</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto9.jpg" class="d-block w-100 img-custom" alt="Limpieza de placa">
+          <div class="carousel-caption">
+            <p>Limpieza de placa</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto10.jpg" class="d-block w-100 img-custom" alt="Soldadura de componentes">
+          <div class="carousel-caption">
+            <p>Soldadura de componentes</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto11.jpg" class="d-block w-100 img-custom" alt="Componentes en placa">
+          <div class="carousel-caption">
+            <p>Componentes en placa</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="static/assets/img_PCB/foto12.jpg" class="d-block w-100 img-custom" alt="Resultado final y medición de 5 Voltios">
+          <div class="carousel-caption">
+            <p>Resultado final y medición de 5 Voltios</p>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselFotos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselFotos" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block customJS %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    new bootstrap.Carousel(document.getElementById('carouselFotos'), {
+      interval: 3500,
+      wrap: true
+    });
+  });
+</script>
+{% endblock %}
+
+{% block customCSS %}
+<style>
+  /* Ajusta el tamaño de las imágenes */
+  .img-custom {
+    width: 600px;
+    height: 600px;
+    object-fit: cover; /* Evita deformaciones */
+    display: block;
+    margin: auto; /* Centra la imagen */
+  }
+
+  /* Estilo para el pie de foto tipo WhatsApp */
+  .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente */
+    color: white;
+    text-align: center; /* Centra el texto */
+    padding: 10px 0;
+    font-size: 18px;
+    z-index: 10; /* Asegura que el pie de foto quede por encima de la imagen */
+  }
+
+  /* Asegura que el título y la línea estén centrados */
+  .text-center {
+    text-align: center;
+  }
+
+  h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  hr {
+    margin: 0 auto;
+    width: 60%; /* Ajusta la línea al centro */
+    border: 2px solid black;
+  }
+
+</style>
+
+{% endblock %}

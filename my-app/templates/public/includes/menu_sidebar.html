@@ -195,6 +195,12 @@
                 </a>
             </li>
             {%endif%}
+            <li class="menu-item {% if request.path == '/ImagenesPCB' %} active{% endif %}">
+                <a href="/ImagenesPCB" class="menu-link">
+                    <i class="menu-icon bi bi-images"></i>
+                    <div data-i18n="Boxicons">Imágenes PCB</div>
+                </a>
+            </li>
             <li class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}">
                 <a href="/mi-perfil/{{dataLogin.id}}" class="menu-link">
                     <i class="menu-icon bi bi-person-fill-gear"></i>
