@@ -181,12 +181,6 @@
                     <div data-i18n="Tables">Control de humo</div>
                 </a>
             </li>
-            <li class="menu-item {% if request.path == '/reporte-accesos' %} active{%endif%}">
-                <a href="/reporte-accesos" class="menu-link">
-                    <i class="menu-icon bi bi-file-lock-fill"></i>
-                    <div data-i18n="Tables">Reporte Accesos</div>
-                </a>
-            </li>
             {% if dataLogin.rol == 1 %}
             <li class="menu-item {% if request.path == '/lista-de-areas' %} active{% endif %}">
                 <a href="/lista-de-areas" class="menu-link">
