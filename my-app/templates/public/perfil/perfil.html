@@ -1,12 +1,12 @@
 {% extends 'public/base_cpanel.html' %}
-<!--Cambiando el title-->
+<!-- Cambiando el title -->
 {% block title %}Monte Verde Control Panel 🖥️| Perfil {% endblock %}
-<!--Inicio del block-->
+<!-- Inicio del block -->
 {% block body %}
 <div class="card" style="border-radius: 0px !important">
   <div class="row justify-content-center mb-2">
     <div class="col-md-12">
-      <h3 class="text-center mt-5 mb-3">MI PERFIL-UPTADE</h3>
+      <h3 class="text-center mt-5 mb-3">MI PERFIL - ACTUALIZAR</h3>
       <hr />
     </div>
   </div>
@@ -16,7 +16,7 @@
       <form
         class="form-horizontal mx-auto"
         method="POST"
-        action="{{ url_for('actualizarPerfil',id=info_perfil_session[0]['id_usuario']) }}">
+        action="{{ url_for('actualizarPerfil', id=info_perfil_session[0]['id_usuario']) }}">
         <div class="card-body">
           <div class="mb-3">
             <label for="cedula" class="form-label">Cédula</label>
@@ -42,131 +42,121 @@
               class="form-control"
               type="text"
               name="surname"
-              value="{{ info_perfil_session[0]['apellido_usuario'] }}"
-              />
+              value="{{ info_perfil_session[0]['apellido_usuario'] }}" />
           </div>
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="genero" class="form-label">
-                Género
-              </label>
-              <select class="form-select" name="selectGenero">
-                {% for genero in generos%}
-                {% if genero.id_genero == info_perfil_session[0]['id_genero']%}
-                <option value="{{genero.id_genero}}" selected> {{genero.tipo_genero}}</option>
-                {%else%}
-                <option value="{{genero.id_genero}}">{{genero.tipo_genero}}</option>
-                {%endif%}
-                {%endfor%}
+              <label for="genero" class="form-label">Género</label>
+              <select class="form-select" name="selectGenero" required>
+                {% for genero in generos %}
+                <option value="{{ genero.id_genero }}" {% if genero.id_genero == info_perfil_session[0]['id_genero'] %} selected {% endif %}>
+                  {{ genero.tipo_genero }}
+                </option>
+                {% endfor %}
               </select>
             </div>
 
             <div class="mb-3 col-md-6">
-              <label for="estado_civil" class="form-label">
-                Estado civil
-              </label>
-              <select class="form-select" name="selectEstadoCivil">
-                {% for estado in estado_civil%}
-                {% if estado.id_estado_civil == info_perfil_session[0]['id_estado_civil']%}
-                <option value="{{estado.id_estado_civil}}" selected> {{estado.registro_civil}}</option>
-                {%else%}
-                <option value="{{estado.id_estado_civil}}">{{estado.registro_civil}}</option>
-                {%endif%}
-                {%endfor%}
+              <label for="estado_civil" class="form-label">Estado civil</label>
+              <select class="form-select" name="selectEstadoCivil" required>
+                {% for estado in estado_civil %}
+                <option value="{{ estado.id_estado_civil }}" {% if estado.id_estado_civil == info_perfil_session[0]['id_estado_civil'] %} selected {% endif %}>
+                  {{ estado.registro_civil }}
+                </option>
+                {% endfor %}
               </select>
             </div>
           </div>
           <div>
-            <label for="area" class="form-label">Area</label>
-            <select class="form-select" name="selectArea" {%if dataLogin.rol == 2 %} disabled {%endif%}>
-              {% for area in areas%}
-              {% if area.id_area == info_perfil_session[0]['id_area']%}
-              <option value="{{area.id_area}}" selected>{{area.nombre_area}}</option>             
-              {%else%}
-              <option value="{{area.id_area}}">{{area.nombre_area}}</option>
-              {%endif%}
-              {%endfor%}
+            <label for="area" class="form-label">Área</label>
+            <select class="form-select" name="selectArea" {% if dataLogin.rol == 2 %} disabled {% endif %}>
+              {% for area in areas %}
+              <option value="{{ area.id_area }}" {% if area.id_area == info_perfil_session[0]['id_area'] %} selected {% endif %}>
+                {{ area.nombre_area }}
+              </option>
+              {% endfor %}
             </select>
-            {%if dataLogin.rol != 1%}
-            <input name="selectArea" value="{{info_perfil_session[0]['id_area']}}" hidden>
-            {%endif%}
+            {% if dataLogin.rol != 1 %}
+            <input name="selectArea" value="{{ info_perfil_session[0]['id_area'] }}" hidden>
+            {% endif %}
           </div>
           <div class="mt-3">
             <label for="rol" class="form-label">Rol</label>
-            <select class="form-select" name="selectRol" {%if dataLogin.rol == 2 %} disabled {%endif%}>
-              {% for rol in roles%}
-              {% if rol.id_rol == info_perfil_session[0]['id_rol']%}
-              <option value="{{rol.id_rol}}" selected>{{rol.nombre_rol}}</option>
-              {%else%}
-              <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
-              {%endif%}
-              {%endfor%}
+            <select class="form-select" name="selectRol" {% if dataLogin.rol == 2 %} disabled {% endif %}>
+              {% for rol in roles %}
+              <option value="{{ rol.id_rol }}" {% if rol.id_rol == info_perfil_session[0]['id_rol'] %} selected {% endif %}>
+                {{ rol.nombre_rol }}
+              </option>
+              {% endfor %}
             </select>
-            {%if dataLogin.rol != 1%}
-            <input name="selectRol" value="{{info_perfil_session[0]['id_rol']}}" hidden>
-            {%endif%}
+            {% if dataLogin.rol != 1 %}
+            <input name="selectRol" value="{{ info_perfil_session[0]['id_rol'] }}" hidden>
+            {% endif %}
           </div>
+
           {% if dataLogin.rol == info_perfil_session[0]['id_rol'] %}
           <div class="mb-3 form-password-toggle mt-3">
             <label class="form-label" for="pass_actual">Clave Actual</label>
             <div class="input-group input-group-merge">
-                <input
-                    type="password"
-                    class="form-control"
-                    name="pass_actual"
-                    id="pass_actual"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password" />
-                <span class="input-group-text cursor-pointer">
-                    <i class="bx bx-hide"></i>
-                </span>
+              <input
+                type="password"
+                class="form-control"
+                name="pass_actual"
+                id="pass_actual"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="password" />
+              <span class="input-group-text cursor-pointer">
+                <i class="bx bx-hide"></i>
+              </span>
             </div>
-        </div>
-        {% endif %}
-        <div class="mb-3 form-password-toggle">
+          </div>
+          {% endif %}
+
+          <div class="mb-3 form-password-toggle">
             <label class="form-label" for="new_pass_user">Nueva Clave</label>
             <div class="input-group input-group-merge">
-                <input
-                    type="password"
-                    class="form-control"
-                    name="new_pass_user"
-                    id="new_pass_user"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password"
-                    required
-                    minlength="8"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_- ])[A-Za-z\d@$!%*?&_-]{8,}"
-                    title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial." />
-                <span class="input-group-text cursor-pointer">
-                    <i class="bx bx-hide"></i>
-                </span>
+              <input
+                type="password"
+                class="form-control"
+                name="new_pass_user"
+                id="new_pass_user"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="password"
+                required
+                minlength="8"
+                pattern=".*"
+                title="La contraseña puede contener cualquier carácter." />
+              <span class="input-group-text cursor-pointer">
+                <i class="bx bx-hide"></i>
+              </span>
             </div>
-        </div>
-        {% if dataLogin.rol == info_perfil_session[0]['id_rol'] %}
-        <div class="mb-3 form-password-toggle">
+          </div>
+
+          {% if dataLogin.rol == info_perfil_session[0]['id_rol'] %}
+          <div class="mb-3 form-password-toggle">
             <label class="form-label" for="repetir_pass_user">Repetir Nueva Clave</label>
             <div class="input-group input-group-merge">
-                <input
-                    type="password"
-                    class="form-control"
-                    name="repetir_pass_user"
-                    id="repetir_pass_user"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password"
-                    required
-                    minlength="8"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}"
-                    title="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial."
-                    oninput="this.setCustomValidity(this.value !== document.getElementById('new_pass_user').value ? 'Las contraseñas no coinciden.' : '');" />
-                <span class="input-group-text cursor-pointer">
-                    <i class="bx bx-hide"></i>
-                </span>
+              <input
+                type="password"
+                class="form-control"
+                name="repetir_pass_user"
+                id="repetir_pass_user"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="password"
+                required
+                minlength="8"
+                pattern=".*"
+                title="La contraseña puede contener cualquier carácter."
+                oninput="this.setCustomValidity(this.value !== document.getElementById('new_pass_user').value ? 'Las contraseñas no coinciden.' : '');" />
+              <span class="input-group-text cursor-pointer">
+                <i class="bx bx-hide"></i>
+              </span>
             </div>
             <small class="form-text text-muted">
-                La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número y un carácter especial.
+              La contraseña debe coincidir con la nueva clave.
             </small>
-        </div>
-        {% endif %}        
+          </div>
+          {% endif %}
         </div>
         <div class="mb-3 text-center">
           <button type="submit" class="btn rounded-pill btn-primary">
@@ -174,6 +164,16 @@
           </button>
         </div>
       </form>
+      {% if error_message %}
+      <div class="alert alert-danger text-center">
+        {{ error_message }}
+      </div>
+      {% endif %}
+      {% if success_message %}
+      <div class="alert alert-success text-center">
+        {{ success_message }}
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
